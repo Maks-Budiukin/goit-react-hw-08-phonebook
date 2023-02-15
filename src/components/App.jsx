@@ -1,40 +1,21 @@
-import React, { useEffect} from "react";
-import { ContactForm } from "./ContactForm/ContactForm";
-import { ContactList } from "./ContactList/ContactList";
-import { Filter } from "./Filter/Filter";
-import styled from "styled-components";
-import { RotatingLines } from 'react-loader-spinner'
+import React, { useEffect, lazy} from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { LoginPage } from "./LoginPage/LoginPage";
-import { RegPage } from "./RegPage/RegPage";
-import { logoutThunk, refreshThunk } from "redux/auth/auth.thunk";
+import { refreshThunk } from "redux/auth/auth.thunk";
 import { Routes, Route } from "react-router-dom";
+import { SharedLayout } from "./SharedLayout/SharedLayout";
+import { HomeScreen } from "./HomeScreen/HomeScreen";
+import { RestrictedRoute } from "./Routes/RestrictedRoute";
+import { PrivateRoute } from "./Routes/PrivateRoute";
 
-const Wrapper = styled.div`
-  width: 300px;
-  margin-left: 50px;
-  h1 {
-    font-size: 2.1em;
-    text-align: right;
-  }
-  h2 {
-    font-size: 2.1em;
-    font-weight: 700;
-  }
-  span {
-    color: skyblue;
-  }
-`
 
-const LoadingWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
+const ContactsPage = lazy(() => import("../Pages/ContactsPage/ContactsPage"));
+const RegPage = lazy(() => import("../Pages/RegPage/RegPage"));
+const LoginPage = lazy(() => import("../Pages/LoginPage/LoginPage"));
 
 export const App = () => {
-  const isLoading = useSelector(state => state.contacts.isLoading);
-  const error = useSelector(state => state.contacts.error)
+  
+  // const error = useSelector(state => state.contacts.error)
   const dispatch = useDispatch();
 
   const token = useSelector(state => state.auth.token)
@@ -47,25 +28,16 @@ export const App = () => {
   }, [dispatch, token])
   
   return (
-    <Wrapper>
-      <button type="button" onClick={() => dispatch(logoutThunk())}>Log Out</button>
-      <LoginPage />
-      <RegPage />
-      {error && <p>{error}</p>}
-      <h1><span>P</span>honebook</h1>
-      <ContactForm />
-      <LoadingWrapper>
-        <h2>Contact<span>s</span></h2>
-        {isLoading && <RotatingLines
-          strokeColor="skyblue"
-          strokeWidth="5"
-          animationDuration="0.75"
-          width="28"
-          visible={true}
-        />}
-      </LoadingWrapper>
-      <Filter />
-      <ContactList />
-      </Wrapper>
+    <>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<HomeScreen />} />
+          <Route path="/login" element={<RestrictedRoute component={LoginPage} redirectTo={'/contacts'} />} />
+          <Route path="/register" element={<RestrictedRoute component={RegPage} redirectTo={'/contacts'} />} />
+          <Route path="/contacts" element={<PrivateRoute component={ContactsPage} redirectTo={'/'} />} />
+        </Route>
+
+      </Routes>
+      </>
    )
 }

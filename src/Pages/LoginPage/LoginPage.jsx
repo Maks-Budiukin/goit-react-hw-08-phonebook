@@ -43,7 +43,7 @@ width: 300px;
 `
 
 
-export const LoginPage = () => {
+const LoginPage = () => {
 
     const emailInpudId = nanoid();
     const passwordInpudId = nanoid();
@@ -99,3 +99,5 @@ export const LoginPage = () => {
         
     </StyledForm>)
 }
+
+export default LoginPage;

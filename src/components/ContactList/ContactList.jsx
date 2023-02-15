@@ -1,4 +1,6 @@
+import { Filter } from "components/Filter/Filter";
 import { useEffect } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteContactsThunk, fetchContactsThunk } from "redux/contacts/contacts.thunk";
 import styled from "styled-components";
@@ -37,11 +39,20 @@ const StyledList = styled.ul`
 
 `
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 export const ContactList = () => {
 
   const contacts = useSelector(state => state.contacts.items);
  
   const filter = useSelector(state => state.filter);
+
+  const isLoading = useSelector(state => state.contacts.isLoading);
+  
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -59,6 +70,17 @@ export const ContactList = () => {
 
   return (
     <StyledList>
+      <LoadingWrapper>
+        <h2>Contact<span>s</span></h2>
+        {isLoading && <RotatingLines
+          strokeColor="skyblue"
+          strokeWidth="5"
+          animationDuration="0.75"
+          width="28"
+          visible={true}
+        />}
+      </LoadingWrapper>
+      <Filter />
       {filteredContacts.map((item) => {
         return(<li key={item.id}>{item.name} <span>{item.number}</span> <button onClick={() => deleteHandler(item.id)}>Del</button></li>)
       })}

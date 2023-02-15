@@ -43,7 +43,7 @@ width: 300px;
 `
 
 
-export const RegPage = () => {
+const RegPage = () => {
 
     const nameInpudId = nanoid();
     const emailInpudId = nanoid();
@@ -120,3 +120,5 @@ export const RegPage = () => {
         
     </StyledForm>)
 }
+
+export default RegPage;
