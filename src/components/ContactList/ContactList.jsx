@@ -44,11 +44,11 @@ export const ContactList = () => {
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(fetchContactsThunk())
-  // }, [dispatch])
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
- 
+  useEffect(() => {
+    isLoggedIn && dispatch(fetchContactsThunk())
+  }, [dispatch, isLoggedIn])
   
   const deleteHandler = (id) => {
     dispatch(deleteContactsThunk(id))

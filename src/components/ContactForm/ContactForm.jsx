@@ -68,7 +68,7 @@ export const ContactForm = () => {
     event.preventDefault();
     contacts.find(contact => contact.name.toLowerCase() === normalizedName) 
       ? alert(`${name} is already in contacts `) 
-      : dispatch(addContactsThunk({ id: nanoid(), name: name, number: number }))
+      : dispatch(addContactsThunk({ name: name, number: number }))
     setName("");
     setNumber("");
   }
