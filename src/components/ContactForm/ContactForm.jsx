@@ -15,7 +15,7 @@ width: 300px;
 
     input {
         display: flex;
-        width: 200px;
+        width: 210px;
         flex-direction: column;
         border: 1px solid silver;
         border-radius: 4px;

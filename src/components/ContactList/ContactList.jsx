@@ -44,9 +44,9 @@ export const ContactList = () => {
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchContactsThunk())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchContactsThunk())
+  // }, [dispatch])
 
  
   

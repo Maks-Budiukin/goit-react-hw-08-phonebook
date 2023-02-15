@@ -1,0 +1,48 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { authInitState } from "./auth.init-state";
+import { loginThunk, logoutThunk, refreshThunk, regThunk } from "./auth.thunk";
+
+const authSlice = createSlice({
+    name: "auth",
+    initialState: authInitState,
+
+    extraReducers: builder => {
+        builder
+            .addCase(regThunk.pending, state => state)
+            .addCase(regThunk.fulfilled, (state, { payload }) => {
+                state.user.name = payload.user.name;
+                state.user.email = payload.user.email;
+                state.token = payload.token;
+                state.isLoggedIn = true;
+            })
+            .addCase(regThunk.rejected, (state, { payload }) => state)
+        
+            .addCase(loginThunk.pending, state => state)
+            .addCase(loginThunk.fulfilled, (state, { payload }) => {
+                state.user.name = payload.user.name;
+                state.user.email = payload.user.email;
+                state.token = payload.token;
+                state.isLoggedIn = true;
+            })
+            .addCase(loginThunk.rejected, (state, { payload }) => state)
+        
+            .addCase(logoutThunk.pending, state => state)
+            .addCase(logoutThunk.fulfilled, (state, { payload }) => {
+                state.token = null;
+                state.user.name = "";
+                state.user.email = "";
+                state.isLoggedIn = false;
+            })
+            .addCase(logoutThunk.rejected, (state, { payload }) => state)
+        
+            .addCase(refreshThunk.pending, state => state)
+            .addCase(refreshThunk.fulfilled, (state, { payload }) => {
+                state.user.name = payload.name;
+                state.user.email = payload.email;
+                state.isLoggedIn = true;
+            })
+            .addCase(refreshThunk.rejected, (state, { payload }) => state)
+    },
+})
+
+export const authReducer = authSlice.reducer;
