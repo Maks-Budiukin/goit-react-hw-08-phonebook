@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { logoutThunk } from "redux/auth/auth.thunk";
 import styled from "styled-components";
 
@@ -78,6 +78,13 @@ margin-bottom: 12px;
     
 `
 
+const LogoLink = styled(Link)`
+  text-decoration: none;
+  &:visited {
+        color: black;
+    }
+`
+
 export const AppBar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
     const name = useSelector(state => state.auth.user.name)
@@ -90,14 +97,12 @@ export const AppBar = () => {
                     ? <AuthButton type="button" onClick={() => dispatch(logoutThunk())}>Log Out</AuthButton>
                     : 
                 <><AuthLink to="/login">Log In</AuthLink><AuthLink to="/register">Sign Up</AuthLink></>}
-            </nav>
-            <div><h1><span>P</span>honebook</h1>
+        </nav>
+            <div>
+        <LogoLink to="/"><h1><span>P</span>honebook</h1></LogoLink>
+            
           {isLoggedIn && <p>Welcome, {name}!</p>}
             </div>
         </NavWrapper>
-        
-        {/* {isLoggedIn
-            ? <><p>Welcome! "here will be name"</p><button type="button" onClick={() => dispatch(logoutThunk())}>Log Out</button></>
-            : <><button type="button">LogIn</button><button type="button">SignUp</button></>} */}
     </>)
 }

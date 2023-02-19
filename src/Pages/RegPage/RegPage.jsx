@@ -5,7 +5,6 @@ import { useState } from "react";
 import { regThunk } from "redux/auth/auth.thunk";
 import { useDispatch } from "react-redux";
 
-
 const StyledForm = styled.form`
 display: flex;
 flex-wrap: wrap;
@@ -42,7 +41,6 @@ width: 300px;
   }
 `
 
-
 const RegPage = () => {
 
     const nameInpudId = nanoid();
@@ -71,7 +69,6 @@ const RegPage = () => {
     event.preventDefault();
     
       dispatch(regThunk({name, email, password}));
-      console.log(name, email, password)
       
     setName("");
     setEmail("");

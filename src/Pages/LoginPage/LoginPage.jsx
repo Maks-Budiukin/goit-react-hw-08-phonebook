@@ -42,7 +42,6 @@ width: 300px;
   }
 `
 
-
 const LoginPage = () => {
 
     const emailInpudId = nanoid();
