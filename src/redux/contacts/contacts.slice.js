@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit" 
 import { contactsInitState } from "./contacts.init-state"
-import { addContactsThunk, deleteContactsThunk, fetchContactsThunk } from "./contacts.thunk";
+import { addContactsThunk, deleteContactsThunk, editContactsThunk, fetchContactsThunk } from "./contacts.thunk";
 
 const contactsSlice = createSlice({
     name: "contacts",
@@ -8,6 +8,9 @@ const contactsSlice = createSlice({
     
     extraReducers: builder => {
         builder
+            
+            // ============== FETCH =================
+
             .addCase(fetchContactsThunk.pending, state => {
                 state.isLoading = true;
                 state.error = null;
@@ -22,6 +25,8 @@ const contactsSlice = createSlice({
                 state.isLoading = false;
             })
             
+            // ============== DELETE =================
+
             .addCase(deleteContactsThunk.pending, state => {
                 state.isLoading = true;
                 state.error = null;
@@ -36,6 +41,8 @@ const contactsSlice = createSlice({
                 state.isLoading = false;
             })
             
+            // ============== ADD =================
+
             .addCase(addContactsThunk.pending, state => {
                 state.isLoading = true;
                 state.error = null;
@@ -46,6 +53,24 @@ const contactsSlice = createSlice({
                 state.error = null;
             })
             .addCase(addContactsThunk.rejected, (state, { payload }) => {
+                state.error = payload;
+                state.isLoading = false;
+            })
+        // ============== EDIT =================
+            
+            .addCase(editContactsThunk.pending, state => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(editContactsThunk.fulfilled, (state, { payload }) => {
+                state.items = state.items.map(item => item.id === payload.id ? payload : item)
+
+                // array: state.array.map(n => n.id === action.newObject.id ? action.newObject : n),
+                    
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase(editContactsThunk.rejected, (state, { payload }) => {
                 state.error = payload;
                 state.isLoading = false;
             })

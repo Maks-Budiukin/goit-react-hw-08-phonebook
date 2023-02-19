@@ -2,8 +2,9 @@ import { Filter } from "components/Filter/Filter";
 import { useEffect } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteContactsThunk, fetchContactsThunk } from "redux/contacts/contacts.thunk";
+import { fetchContactsThunk } from "redux/contacts/contacts.thunk";
 import styled from "styled-components";
+import { ContactListItem } from "components/ContactListItem/ContactListItem";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -11,6 +12,7 @@ const StyledList = styled.ul`
   padding: 0;
   li {
     display: flex;
+    gap: 4px;
     justify-content: space-between;
     align-items: center;
     margin: 4px;
@@ -29,6 +31,9 @@ const StyledList = styled.ul`
       border: 1px solid skyblue;
     }
   }
+
+  
+
   li span {
     color: black;
     display: inline-block;
@@ -48,22 +53,14 @@ const LoadingWrapper = styled.div`
 export const ContactList = () => {
 
   const contacts = useSelector(state => state.contacts.items);
- 
   const filter = useSelector(state => state.filter);
-
   const isLoading = useSelector(state => state.contacts.isLoading);
-  
   const dispatch = useDispatch();
-
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
   useEffect(() => {
     isLoggedIn && dispatch(fetchContactsThunk())
   }, [dispatch, isLoggedIn])
-  
-  const deleteHandler = (id) => {
-    dispatch(deleteContactsThunk(id))
-  }
 
   const normalizedFilter = filter.toLowerCase().trim();
   const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
@@ -82,7 +79,7 @@ export const ContactList = () => {
       </LoadingWrapper>
       <Filter />
       {filteredContacts.map((item) => {
-        return(<li key={item.id}>{item.name} <span>{item.number}</span> <button onClick={() => deleteHandler(item.id)}>Del</button></li>)
+        return (<ContactListItem key={item.id} name={item.name} number={item.number} id={item.id} />)
       })}
     </StyledList>
   )

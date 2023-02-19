@@ -34,7 +34,6 @@ width: 120px;
     &:hover,
     &:focus  {
       outline: none;
-      /* color: skyblue; */
       border: 1px solid skyblue;
     }
   &.active {
@@ -55,7 +54,5 @@ export const HomeScreen = () => {
                 <StyledLink to="/contacts">Go to Your contacts</StyledLink></div>
             : <div><h1>Welcome to PhoneBook App!</h1>
                 <p>Please, LogIn or SignUp to get your own phone book!</p></div>}
-        
-        
-    </HomeWrapper>)
+            </HomeWrapper>)
 }

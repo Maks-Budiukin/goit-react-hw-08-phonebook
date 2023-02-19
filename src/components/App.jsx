@@ -15,11 +15,8 @@ const LoginPage = lazy(() => import("../Pages/LoginPage/LoginPage"));
 
 export const App = () => {
   
-  // const error = useSelector(state => state.contacts.error)
   const dispatch = useDispatch();
-
-  const token = useSelector(state => state.auth.token)
- 
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     if (token) {
